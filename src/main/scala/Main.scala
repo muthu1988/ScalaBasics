@@ -1,3 +1,4 @@
+// Define a main method using object
 object Main extends App {
   println("Scala")
 
@@ -39,4 +40,16 @@ object Main extends App {
   val yetAnotherPoint = Point(1,2)
   println(point == anotherPoint)
   println(point == yetAnotherPoint)
+
+  // Object - Object will act as singleton of there own class
+  val newId = IdGenerator.create()
+  println(newId)
+  val anotherId = IdGenerator.create()
+  println(anotherId)
+
+  // Traits
+  val defaultGreet = new DefaultGreeter();
+  println(defaultGreet.greet("muthu"))
+  val customizedGreeter = new CustomizedGreeter("Hello ", " !")
+  println(customizedGreeter.greet("muthu"))
 }
