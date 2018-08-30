@@ -1,3 +1,5 @@
+import scala.collection.mutable.ArrayBuffer
+
 // Define a main method using object
 object Main extends App {
   println("Scala")
@@ -49,7 +51,59 @@ object Main extends App {
 
   // Traits
   val defaultGreet = new DefaultGreeter();
-  println(defaultGreet.greet("muthu"))
+  defaultGreet.greet("muthu")
   val customizedGreeter = new CustomizedGreeter("Hello ", " !")
-  println(customizedGreeter.greet("muthu"))
+  customizedGreeter.greet("muthu")
+
+  //Type
+  val list: List[Any] = List(
+    "a string",
+    732,  // an integer
+    'c',  // a character
+    true, // a boolean value
+    () => "an anonymous function returning a string"
+  )
+  list.foreach(element => println(element))
+
+  val x: Long = 987654321
+  val y: Float = x  // 9.8765434E8 (note that some precision is lost in this case)
+  val face: Char = 'b'
+  val number: Int = face  // 9786
+
+  // Class
+  val defaultPoint = new Point
+  println(defaultPoint)
+  val xpoint = new Point(1)
+  println(xpoint)
+  val ypoint = new Point(y=1)
+  println(ypoint)
+
+  val coordinates = new Coordinates
+  coordinates.x = 100
+  coordinates.y = 101
+
+  // Trait
+  var iter = new Iterator(4)
+  println(iter.next())
+  println(iter.next())
+  println(iter.next())
+  println(iter.next())
+  println(iter.next())
+
+  class Dog(val name: String) extends PetTrait
+  class Cat(val name: String) extends PetTrait
+
+  val dog = new Dog("bow")
+  val cat = new Cat("meow")
+
+  val animals = ArrayBuffer.empty[PetTrait]
+  animals.append(dog)
+  animals.append(cat)
+  animals.foreach(pet => println(pet.name))
+
+  // Class composition with mixins
+  class RichStringIter extends StringIterator("scala") with RichStringIterator
+  var richStringIter = new RichStringIter
+  richStringIter foreach println
+
 }
