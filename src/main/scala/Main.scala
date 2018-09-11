@@ -106,4 +106,153 @@ object Main extends App {
   var richStringIter = new RichStringIter
   richStringIter foreach println
 
+  //High Order Functions
+  var numbers = Seq(1,2,3)
+  var newnumbers = numbers.map(_ * 2)
+  println(newnumbers)
+
+  val salaries: List[Double] = List(1,2,3)
+  val smallPromo = SalaryRiser.smallPromotion(salaries)
+  println("small promo: " + smallPromo)
+  val bigPromo = SalaryRiser.bigPromotion(salaries)
+  println("big promo: " + bigPromo)
+  val hugePromo = SalaryRiser.hugePromotion(salaries)
+  println("huge promo: " + hugePromo)
+
+  // Pattern Matching
+  val patternVal = 2
+  patternVal match {
+    case 1 => println("one")
+    case 2 => println("two")
+    case _ => println("others")
+  }
+
+  // Pattern matching with guard
+  def showNotifiction( notification: Notification) : String = {
+    val listOfSenders :  Seq[String] = Seq("muthu")
+    notification match {
+      case Email(sender, title, _) if listOfSenders.contains(sender) => s"Email from $sender"
+      case SMS(caller, _) => s"SMS from $caller"
+      case VoiceRecording(contactName, link) => s"Voice Mail from $contactName"
+      case other => s"Other : $other"
+    }
+  }
+
+  println(showNotifiction(Email("muthu", "", "")))
+  println(showNotifiction(Email("muthus", "", "")))
+
+  def matchingOnlyOnType(notification: Notification) : String = {
+    notification match {
+      case e : Email => e.sender
+      case v : VoiceRecording => v.contactName
+      case s : SMS => s.caller
+    }
+  }
+  println(matchingOnlyOnType(SMS("caller","")))
+
+  // Object with Companion Class
+  val c = new Circle(2)
+  println(c.area)
+
+  // Regular Expression( .r)
+  import scala.util.matching.Regex
+  val numberPattern: Regex = "[0-9]".r
+
+  numberPattern.findFirstMatchIn("awesomepassword") match {
+    case Some(_) => println("Password OK")
+    case None => println("Password must contain a number")
+  }
+
+  //Extractor Object
+  import CustomerID._
+  val customer1ID = CustomerID("Sukyoung")  // Sukyoung--23098234908
+  customer1ID match {
+    case CustomerID(name) => println(name)  // prints Sukyoung
+    case _ => println("Could not extract a CustomerID")
+  }
+
+  // For Comprehension
+  case class User(name: String, age: Int)
+
+  val userBase = List(User("muthu", 29), User("adaikalam", 60), User("ranji", 25))
+  val twenties = for( user <- userBase if(user.age > 19 && user.age <30)) yield user.name
+  twenties.foreach(name => println(name))
+
+  def foo(n: Int, v: Int) =
+    for(i <- 0 until n; j <- i until n if i + j == v) yield (i, j)
+
+  foo(10, 10) foreach {
+    case (i ,j) => println(s"$i , $j")
+  }
+
+  // Generic Class
+  val genericClass = new Stack[Int]()
+  genericClass.push(1)
+  genericClass.push(2)
+  println(genericClass.pop())
+  println(genericClass.pop())
+
+  //Covariance
+  val cats: List[DogAnimal] = List(DogAnimal("Whiskers"), DogAnimal("Tom"))
+  val dogs: List[CatAnimal] = List(CatAnimal("Fido"), CatAnimal("Rex"))
+
+  def printAnimalNames(animals: List[Animal]): Unit = {
+    animals.foreach { animal =>
+      println(animal.name)
+    }
+  }
+
+  printAnimalNames(cats)
+  printAnimalNames(dogs)
+
+  //Contravariance
+  val myCat: CatAnimal = CatAnimal("Boots")
+
+  def printMyCat(printer: Printer[CatAnimal]): Unit = {
+    printer.print(myCat)
+  }
+
+  val catPrinter: Printer[CatAnimal] = new CatPrinter
+  val animalPrinter: Printer[Animal] = new AnimalPrinter
+
+  printMyCat(catPrinter)
+  printMyCat(animalPrinter)
+
+  // Invariance - Neither Covariance or Contravariance
+
+  // UPPER TYPE BOUNDS
+  val cokeContainer = new CoolDrinksContainer[Coke](new Coke)
+  val fantaContainer = new CoolDrinksContainer[Fanta](new Fanta)
+  // Below wont compile - [Tea] do not conform to class CoolDrinksContainer's type parameter bounds [C <: CoolDrinks]
+  // val teaContainer = new CoolDrinksContainer[Tea](new Tea)
+
+  // Lower Type Bounds
+
+  // Inner Classes
+
+  // Abstract types
+
+  // Compound Types
+
+  // Self Type
+
+  // Implicit Parameters
+
+  // Implicit Conversion
+
+  // Polymorphic methods
+
+  // Type Inference
+
+  // Operators
+
+  // By Name Parameters
+
+  // Annotations
+
+  // Default Parameter Values
+
+  // Names Arguments
+
+  // Packages & Imports
 }
